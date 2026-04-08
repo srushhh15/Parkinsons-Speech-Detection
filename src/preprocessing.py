@@ -1,6 +1,7 @@
 import librosa
+import numpy as np
 
-def load_audio(file_path):
-    # Load first 2 seconds (faster + consistent)
-    signal, sr = librosa.load(file_path, sr=22050, duration=2.0)
+def load_audio(file_path, sr=22050):
+    """Load audio file and return signal and sample rate"""
+    signal, sr = librosa.load(file_path, sr=sr)
     return signal, sr
