@@ -8,7 +8,7 @@ import os
 def train_model_fast(X, y, domain_name="Model"):
     """Fast training with detailed metrics for medium-sized datasets"""
     
-    print(f"\n🔧 Training {domain_name}...")
+    print(f"\nTraining {domain_name}...")
     print(f"   Features: {X.shape[1]}, Samples: {X.shape[0]}")
     
     # Split data (70/30 for more reliable validation)
@@ -38,30 +38,30 @@ def train_model_fast(X, y, domain_name="Model"):
     tn, fp, fn, tp = cm.ravel()
     specificity = tn / (tn + fp) if (tn + fp) > 0 else 0
     
-    print(f"\n   📊 RESULTS:")
-    print(f"   ├─ Accuracy:    {acc:.4f} ({acc*100:.2f}%)")
-    print(f"   ├─ Precision:   {precision:.4f} ({precision*100:.2f}%)")
-    print(f"   ├─ Recall:      {recall:.4f} ({recall*100:.2f}%) [Sensitivity]")
-    print(f"   ├─ Specificity: {specificity:.4f} ({specificity*100:.2f}%)")
-    print(f"   └─ F1-Score:    {f1:.4f}")
+    print(f"\n   RESULTS:")
+    print(f"   - Accuracy:    {acc:.4f} ({acc*100:.2f}%)")
+    print(f"   - Precision:   {precision:.4f} ({precision*100:.2f}%)")
+    print(f"   - Recall:      {recall:.4f} ({recall*100:.2f}%) [Sensitivity]")
+    print(f"   - Specificity: {specificity:.4f} ({specificity*100:.2f}%)")
+    print(f"   - F1-Score:    {f1:.4f}")
     
-    print(f"\n   📋 CONFUSION MATRIX:")
-    print(f"   ├─ True Negatives:  {tn} (Healthy correctly identified)")
-    print(f"   ├─ False Positives: {fp} (Healthy misclassified as PD)")
-    print(f"   ├─ False Negatives: {fn} (PD missed) ⚠️")
-    print(f"   └─ True Positives:  {tp} (PD correctly identified)")
+    print(f"\n   CONFUSION MATRIX:")
+    print(f"   - True Negatives:  {tn} (Healthy correctly identified)")
+    print(f"   - False Positives: {fp} (Healthy misclassified as PD)")
+    print(f"   - False Negatives: {fn} (PD missed)")
+    print(f"   - True Positives:  {tp} (PD correctly identified)")
     
-    # Plot confusion matrix - FIXED VERSION
+    # Plot confusion matrix
     os.makedirs("../results", exist_ok=True)
     
     plt.figure(figsize=(8, 6))
-    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=['Healthy', "Parkinson's"])
-    disp.plot(cmap='Blues', values_format='d')  # REMOVED cbar parameter
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=['Healthy', "PD"])
+    disp.plot(cmap='Blues', values_format='d')
     plt.title(f"Confusion Matrix - {domain_name}\n(Accuracy: {acc*100:.2f}%)", 
               fontsize=12, fontweight='bold')
     plt.tight_layout()
     
-    filename = domain_name.replace(' ', '_').replace('(', '').replace(')', '')
+    filename = domain_name.replace(' ', '_').replace('(', '').replace(')', '').replace('-', '')
     plt.savefig(f"../results/cm_{filename}.png", dpi=300, bbox_inches='tight')
     plt.close()
     
